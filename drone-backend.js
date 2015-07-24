@@ -31,10 +31,13 @@ function fly(robot) {
     bot.drone.ftrim();
 
     bot.drone.takeoff(function() {
-        bot.drone.animateLeds("blinkGreen", 60, 10);
-        bot.drone.clockwise(0.325);
-        bot.drone.front(0.1);
-        bot.drone.up(0.3);
+        bot.drone.animateLeds("snakeGreenRed", 60, 20);
+
+        var speed = 3;
+
+        bot.drone.clockwise(0.325 * speed);
+        bot.drone.front(0.1 * speed);
+        bot.drone.up(0.05);
     });
 
     after(30 * 1000, function() {

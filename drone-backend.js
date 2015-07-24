@@ -2,6 +2,7 @@ var Cylon = require('cylon');
 var ws = require('nodejs-websocket');
 var bot;
 var altitude;
+var speed, turn, front, up;
 
 
 
@@ -28,39 +29,46 @@ function fly(robot) {
     bot.drone.ftrim();
 
     bot.drone.takeoff(function() {
-        console.log("Turning on snake eyes...");
         bot.drone.animateLeds("snakeGreenRed", 60, 20);
 
-        var speed = 3.333;
+        // SPEED MODIFIER
+        speed = 3;
+        // TURNING SPEED
+        turn = 0.25;
+        // FORWARD SPEED
+        front = 0.1;
+        // UPWARDS SPEED
+        up = 0.05;
 
-        console.log("Working @ speed of " + speed + "...");
-
-        var clock = 0.3 * speed;
-        var front = 0.1 * speed;
-
-        console.log("Turning clockwise @ " + clock + ".");
-        console.log("Going forwards @ " + front + ".");
-
-        bot.drone.clockwise(clock);
-        bot.drone.front(front);
-
-        var up = 0.05;
-
-        console.log("Going up @ " + up + ".");
-
+        bot.drone.clockwise(turn * speed);
+        bot.drone.front(front * speed);
         bot.drone.up(up);
+    });
 
-        after(30 * 1000, function() {
-            bot.drone.stop();
+    after(30 * 1000, function() {
+        bot.drone.stop();
+        bot.drone.clockwise(1);
+    });
 
-            bot.drone.clockwise(1);
+    after(36 * 1000, function() {
+        bot.drone.stop();
+        bot.drone.antiClockwise(turn * speed);
+        bot.drone.back(front * speed);
+        bot.drone.down(up);
+    });
 
-            after(6 * 1000, function() {
-                bot.drone.stop();
-                bot.drone.antiClockwise(clock);
-                bot.drone.back(front);
-                bot.drone.down(up);
-            });
+    after(46 * 1000, function() {
+        bot.drone.stop();
+    });
+
+    after(48 * 1000, function() {
+        bot.drone.wave();
+    });
+
+    after(52 * 1000, function() {
+        bot.drone.stop();
+        bot.drone.land(function() {
+            console.log("Landed!");
         });
     });
 

@@ -34,23 +34,28 @@ function fly(robot) {
     });
     after(3*1000, function(){
         bot.drone.hover(0.2);
-    })
-    after(7*1000, function() {
+    });
+
+    after(4 * 1000, function() {
+        bot.drone.backFlip(5000);
+    });
+
+    after(6*1000, function() {
         bot.drone.left(0.07);
     });
     after(14*1000, function(){
        bot.drone.front (0.095)
     });
-    after(18*1000, function() {
+    after(17*1000, function() {
         bot.drone.right(0.07);
     });
-    after(22*1000, function() {
+    after(21*1000, function() {
         bot.drone.back(0.095);
     });
-    after(29*1000, function() {
+    after(24*1000, function() {
         bot.drone.left(0.07);
     });
-    after(40*1000, function() {
+    after(37*1000, function() {
         bot.drone.land();
     });
     bot.nav.on("altitudeChange", function(data) {
@@ -60,7 +65,7 @@ function fly(robot) {
             bot.drone.land();
         }
     });
-    after(45*1000, function() {
+    after(42*1000, function() {
         bot.drone.stop();
     });
 

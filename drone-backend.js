@@ -20,7 +20,7 @@ Cylon.robot()
         connection: "ardrone"
     })
     .on("ready", fly);
-    
+
 // Fly the bot.
 function fly(robot) {
     bot = robot;
@@ -32,11 +32,12 @@ function fly(robot) {
 
     bot.drone.takeoff(function() {
         bot.drone.animateLeds("blinkGreen", 60, 10);
-        bot.drone.clockwise(0.3);
+        bot.drone.clockwise(0.325);
         bot.drone.front(0.1);
+        bot.drone.up(0.3);
     });
 
-    after(15 * 1000, function() {
+    after(30 * 1000, function() {
         bot.drone.stop();
         bot.drone.land(function() {
             console.log("Landed!");

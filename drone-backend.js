@@ -26,7 +26,7 @@ function fly(robot) {
     bot = robot;
 
     bot.nav.on("navdata", function(data) {
-        console.log(data);
+        console.log("ALTITUDE: " + data.demo.altitudeMeters);
     });
     bot.drone.ftrim();
 

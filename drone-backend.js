@@ -1,6 +1,8 @@
 var Cylon = require('cylon');
 var ws = require('nodejs-websocket');
 var bot;
+var altitude;
+
 
 
 // Initialise the robot
@@ -13,26 +15,42 @@ Cylon.robot()
         driver: "ardrone",
         connection: "ardrone"
     })
+    .device("nav", {
+        driver: "ardrone-nav",
+        connection: "ardrone"
+    })
     .on("ready", fly);
     
 // Fly the bot
 function fly(robot) {
     bot = robot;
-    robot.drone.ftrim();
-    after(2*1000, function() {
-        robot.drone.takeoff(0.2);
+
+    bot.nav.on("navdata", function(data) {
+        console.log(data);
     });
-    after(2 *1000, function() {
-        robot.drone.left(0.3);
-    });
+    bot.drone.ftrim();
+
     after(2*1000, function() {
-        robot.drone.right(0.3);
+        bot.drone.takeoff();
     });
-    after(2*1000, function() {
-        robot.drone.land();
+    after(4*1000, function() {
+        bot.drone.left(0.1);
     });
-    after(2*1000, function() {
-        robot.drone.stop();
+    after(6*1000, function() {
+        bot.drone.right(0.1);
+    });
+    after(8*1000, function() {
+        bot.drone.land();
+    });
+    bot.nav.on("altitudeChange", function(data) {
+        console.log("Altitude:", data);
+        // Drone is higher than 1.0 meters up
+        if (altitude > 1.0) {
+            bot.drone.land();
+        }
+    });
+    after(10*1000, function() {
+        bot.drone.stop();
     });
 
 }

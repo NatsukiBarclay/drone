@@ -29,17 +29,19 @@ function fly(robot) {
         console.log(data);
     });
     bot.drone.ftrim();
-
     after(2*1000, function() {
         bot.drone.takeoff();
     });
-    after(4*1000, function() {
+    after(3*1000, function(){
+        bot.drone.hover(0.2);
+    })
+    after(8*1000, function() {
         bot.drone.left(0.1);
     });
-    after(6*1000, function() {
+    after(10*1000, function() {
         bot.drone.right(0.1);
     });
-    after(8*1000, function() {
+    after(12*1000, function() {
         bot.drone.land();
     });
     bot.nav.on("altitudeChange", function(data) {

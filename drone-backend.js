@@ -36,7 +36,7 @@ function fly(robot) {
         bot.drone.front(0.1);
     });
 
-    after(0, function() {
+    after(15 * 1000, function() {
         bot.drone.stop();
         bot.drone.land(function() {
             console.log("Landed!");
